@@ -1,0 +1,55 @@
+{
+  "start_point": {
+    "address": "344011, г. Ростов-на-Дону, ул. Большая Садовая, д. 121",
+    "latitude": 47.226447,
+    "longitude": 39.735458
+  },
+  "clients": [
+    {
+      "id": "1",
+      "address": "344002, г. Ростов-на-Дону, пр. Буденновский, д. 15",
+      "latitude": 47.217818,
+      "longitude": 39.708419,
+      "level": "standard",
+      "work_start": "09:00",
+      "work_end": "18:00",
+      "lunch_start": "13:00",
+      "lunch_end": "14:00"
+    },
+    {
+      "id": "2",
+      "address": "344019, г. Ростов-на-Дону, Красноармейская улица, 65/87",
+      "latitude": 47.228846,
+      "longitude": 39.714680,
+      "level": "standard",
+      "work_start": "09:00",
+      "work_end": "18:00",
+      "lunch_start": "13:00",
+      "lunch_end": "14:00"
+    },
+    {
+      "id": "3",
+      "address": "344025, г. Ростов-на-Дону, улица Страны Советов, 9",
+      "latitude": 47.254204,
+      "longitude": 39.754952,
+      "level": "standard",
+      "work_start": "09:00",
+      "work_end": "18:00",
+      "lunch_start": "13:00",
+      "lunch_end": "14:00"
+    },
+    {
+      "id": "4",
+      "address": "344037, г. Ростов-на-Дону, Таганрогская улица, 169",
+      "latitude": 47.258121,
+      "longitude": 39.643987,
+      "level": "standard",
+      "work_start": "09:00",
+      "work_end": "18:00",
+      "lunch_start": "13:00",
+      "lunch_end": "14:00"
+    }
+  ],
+  "start_time": "09:00",
+  "start_day": "Saturday"
+}

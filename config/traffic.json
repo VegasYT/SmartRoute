@@ -1,0 +1,452 @@
+{
+  "Monday": {
+    "name_ru": "Понедельник",
+    "weekday_number": 0,
+    "hours": {
+      "0": {
+        "average": 0.08
+      },
+      "1": {
+        "average": 0.0
+      },
+      "2": {
+        "average": 0.0
+      },
+      "7": {
+        "average": 1.02
+      },
+      "8": {
+        "average": 3.06
+      },
+      "9": {
+        "average": 4.76
+      },
+      "10": {
+        "average": 3.54
+      },
+      "11": {
+        "average": 2.94
+      },
+      "12": {
+        "average": 3.67
+      },
+      "13": {
+        "average": 3.42
+      },
+      "14": {
+        "average": 3.65
+      },
+      "15": {
+        "average": 3.09
+      },
+      "16": {
+        "average": 3.19
+      },
+      "17": {
+        "average": 3.83
+      },
+      "18": {
+        "average": 5.4
+      },
+      "19": {
+        "average": 5.01
+      },
+      "20": {
+        "average": 2.96
+      },
+      "21": {
+        "average": 1.36
+      },
+      "22": {
+        "average": 1.13
+      },
+      "23": {
+        "average": 0.07
+      }
+    }
+  },
+  "Tuesday": {
+    "name_ru": "Вторник",
+    "weekday_number": 1,
+    "hours": {
+      "0": {
+        "average": 0.07
+      },
+      "1": {
+        "average": 0.33
+      },
+      "7": {
+        "average": 1.09
+      },
+      "8": {
+        "average": 3.12
+      },
+      "9": {
+        "average": 4.8
+      },
+      "10": {
+        "average": 4.03
+      },
+      "11": {
+        "average": 3.78
+      },
+      "12": {
+        "average": 3.87
+      },
+      "13": {
+        "average": 3.73
+      },
+      "14": {
+        "average": 4.21
+      },
+      "15": {
+        "average": 3.45
+      },
+      "16": {
+        "average": 3.37
+      },
+      "17": {
+        "average": 4.58
+      },
+      "18": {
+        "average": 5.7
+      },
+      "19": {
+        "average": 5.49
+      },
+      "20": {
+        "average": 3.31
+      },
+      "21": {
+        "average": 1.66
+      },
+      "22": {
+        "average": 1.03
+      },
+      "23": {
+        "average": 0.22
+      }
+    }
+  },
+  "Wednesday": {
+    "name_ru": "Среда",
+    "weekday_number": 2,
+    "hours": {
+      "0": {
+        "average": 0.12
+      },
+      "1": {
+        "average": 0.43
+      },
+      "7": {
+        "average": 1.0
+      },
+      "8": {
+        "average": 3.05
+      },
+      "9": {
+        "average": 4.83
+      },
+      "10": {
+        "average": 3.91
+      },
+      "11": {
+        "average": 3.41
+      },
+      "12": {
+        "average": 3.89
+      },
+      "13": {
+        "average": 3.47
+      },
+      "14": {
+        "average": 3.22
+      },
+      "15": {
+        "average": 3.26
+      },
+      "16": {
+        "average": 3.97
+      },
+      "17": {
+        "average": 4.58
+      },
+      "18": {
+        "average": 5.71
+      },
+      "19": {
+        "average": 5.25
+      },
+      "20": {
+        "average": 3.23
+      },
+      "21": {
+        "average": 1.66
+      },
+      "22": {
+        "average": 1.06
+      },
+      "23": {
+        "average": 0.25
+      }
+    }
+  },
+  "Thursday": {
+    "name_ru": "Четверг",
+    "weekday_number": 3,
+    "hours": {
+      "0": {
+        "average": 0.12
+      },
+      "1": {
+        "average": 0.14
+      },
+      "7": {
+        "average": 1.0
+      },
+      "8": {
+        "average": 2.91
+      },
+      "9": {
+        "average": 4.67
+      },
+      "10": {
+        "average": 3.42
+      },
+      "11": {
+        "average": 3.3
+      },
+      "12": {
+        "average": 3.58
+      },
+      "13": {
+        "average": 3.84
+      },
+      "14": {
+        "average": 3.36
+      },
+      "15": {
+        "average": 3.33
+      },
+      "16": {
+        "average": 3.52
+      },
+      "17": {
+        "average": 4.51
+      },
+      "18": {
+        "average": 5.75
+      },
+      "19": {
+        "average": 5.07
+      },
+      "20": {
+        "average": 3.1
+      },
+      "21": {
+        "average": 1.53
+      },
+      "22": {
+        "average": 1.09
+      },
+      "23": {
+        "average": 0.18
+      }
+    }
+  },
+  "Friday": {
+    "name_ru": "Пятница",
+    "weekday_number": 4,
+    "hours": {
+      "0": {
+        "average": 0.12
+      },
+      "1": {
+        "average": 0.11
+      },
+      "7": {
+        "average": 1.0
+      },
+      "8": {
+        "average": 2.8
+      },
+      "9": {
+        "average": 4.37
+      },
+      "10": {
+        "average": 3.55
+      },
+      "11": {
+        "average": 3.82
+      },
+      "12": {
+        "average": 3.67
+      },
+      "13": {
+        "average": 4.19
+      },
+      "14": {
+        "average": 3.97
+      },
+      "15": {
+        "average": 3.88
+      },
+      "16": {
+        "average": 4.26
+      },
+      "17": {
+        "average": 5.56
+      },
+      "18": {
+        "average": 6.71
+      },
+      "19": {
+        "average": 5.14
+      },
+      "20": {
+        "average": 3.03
+      },
+      "21": {
+        "average": 1.86
+      },
+      "22": {
+        "average": 1.1
+      },
+      "23": {
+        "average": 0.88
+      }
+    }
+  },
+  "Saturday": {
+    "name_ru": "Суббота",
+    "weekday_number": 5,
+    "hours": {
+      "0": {
+        "average": 0.16
+      },
+      "1": {
+        "average": 0.25
+      },
+      "2": {
+        "average": 0.0
+      },
+      "7": {
+        "average": 1.0
+      },
+      "8": {
+        "average": 0.97
+      },
+      "9": {
+        "average": 1.62
+      },
+      "10": {
+        "average": 1.96
+      },
+      "11": {
+        "average": 2.64
+      },
+      "12": {
+        "average": 3.42
+      },
+      "13": {
+        "average": 3.58
+      },
+      "14": {
+        "average": 3.23
+      },
+      "15": {
+        "average": 3.31
+      },
+      "16": {
+        "average": 2.94
+      },
+      "17": {
+        "average": 2.27
+      },
+      "18": {
+        "average": 2.05
+      },
+      "19": {
+        "average": 2.18
+      },
+      "20": {
+        "average": 1.41
+      },
+      "21": {
+        "average": 1.29
+      },
+      "22": {
+        "average": 1.32
+      },
+      "23": {
+        "average": 0.67
+      }
+    }
+  },
+  "Sunday": {
+    "name_ru": "Воскресенье",
+    "weekday_number": 6,
+    "hours": {
+      "0": {
+        "average": 0.14
+      },
+      "1": {
+        "average": 0.32
+      },
+      "2": {
+        "average": 0.31
+      },
+      "7": {
+        "average": 1.0
+      },
+      "8": {
+        "average": 0.78
+      },
+      "9": {
+        "average": 0.82
+      },
+      "10": {
+        "average": 0.8
+      },
+      "11": {
+        "average": 1.83
+      },
+      "12": {
+        "average": 1.98
+      },
+      "13": {
+        "average": 1.98
+      },
+      "14": {
+        "average": 2.12
+      },
+      "15": {
+        "average": 2.06
+      },
+      "16": {
+        "average": 2.22
+      },
+      "17": {
+        "average": 1.65
+      },
+      "18": {
+        "average": 2.0
+      },
+      "19": {
+        "average": 1.58
+      },
+      "20": {
+        "average": 1.17
+      },
+      "21": {
+        "average": 1.37
+      },
+      "22": {
+        "average": 1.38
+      },
+      "23": {
+        "average": 0.29
+      }
+    }
+  }
+}
