@@ -1,10 +1,8 @@
-version: '3.8'
-
 services:
   smartroute:
     container_name: smartroute_back
     build: .
-    ports:
+    expose:
       - "8000"
     environment:
       - HOST=0.0.0.0
@@ -21,7 +19,7 @@ services:
       - "443:443"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
-      - /etc/letsencrypt:/etc/letsencrypt:ro  # Системные сертификаты
+      - /etc/letsencrypt:/etc/letsencrypt:ro
     depends_on:
       - smartroute
     networks:
