@@ -39,6 +39,9 @@ fi
 # Локальный режим
 if [ "$MODE" == "local" ]; then
     echo -e "${GREEN}Настройка локального окружения...${NC}"
+
+    # Удаляем старые конфиги
+    rm -rf nginx.conf docker-compose.yml
     
     # Используем docker-compose-local.yml
     cp docker-compose-local.yml docker-compose.yml
@@ -71,6 +74,10 @@ elif [ "$MODE" == "production" ]; then
     # Остановка Docker контейнеров
     echo -e "${GREEN}Остановка Docker контейнеров...${NC}"
     docker compose down 2>/dev/null
+
+    # Убедимся что порты освободились
+    sleep 2
+    sudo pkill -f "nginx" 2>/dev/null || true
     
     # Получение SSL сертификата
     echo -e "${GREEN}Получение SSL сертификата...${NC}"
@@ -98,11 +105,14 @@ elif [ "$MODE" == "production" ]; then
     
     # Настройка конфигов
     echo -e "${GREEN}Настройка конфигурации...${NC}"
-    
+
+    # Удаляем старый конфиг если он есть (может быть директорией)
+    rm -rf nginx.conf docker-compose.yml
+
     # Обновление nginx.conf с доменом
     cp nginx-prod.conf nginx.conf
     sed -i "s/demo-project.space/$DOMAIN/g" nginx.conf
-    
+
     # Обновление docker-compose.yml
     cp docker-compose-prod.yml docker-compose.yml
     
@@ -119,9 +129,4 @@ elif [ "$MODE" == "production" ]; then
     echo -e "\n${GREEN}✓ Деплой завершен!${NC}"
     echo -e "API доступно по адресу: ${YELLOW}https://$DOMAIN${NC}"
     echo -e "Для просмотра логов: ${YELLOW}docker compose logs -f${NC}"
-    
-    # Настройка автообновления сертификата
-    echo -e "\n${YELLOW}Настройка автообновления SSL сертификата...${NC}"
-    (sudo crontab -l 2>/dev/null | grep -v "certbot renew"; echo "0 3 * * 1 certbot renew --quiet && docker exec nginx nginx -s reload") | sudo crontab -
-    echo -e "${GREEN}✓ Автообновление настроено (каждый понедельник в 3:00)${NC}"
 fi
