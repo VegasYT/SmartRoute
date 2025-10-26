@@ -10,7 +10,9 @@ import { useYandexMultiRoute } from '@/lib/hooks/useYandexMultiRoute';
 import { useMapsStore } from '@/stores/maps';
 import { useGeolocation } from '@/lib/hooks/useGeolocation';
 import { useTasksStore } from '@/stores/tasks';
+import { toast } from 'sonner';
 
+const DEFAULT_COORDS = [47.228877, 39.720034];
 const setUserPosition = useMapsStore.getState().setUserPosition;
 
 const MapView = ({ children }: PropsWithChildren) => {
@@ -35,6 +37,11 @@ const MapView = ({ children }: PropsWithChildren) => {
 				setUserPosition(coords);
 			}
 		},
+		onError: (error) => {
+			if (error === 'refused') {
+				toast.warning('Для корректной работы приложение рекомендуем дать доступ к Вашей геолокации');
+			}
+		},
 	});
 
 	useYandexMultiRoute(ymapsApi, mapRef.current, multiRouteData, {
@@ -51,7 +58,7 @@ const MapView = ({ children }: PropsWithChildren) => {
 			</div>
 		);
 
-	if (geolocationError)
+	if (geolocationError === 'unsupported')
 		return (
 			<div className={styles['info-container']}>
 				<ErrorInfo geolocationError={geolocationError} />
@@ -65,7 +72,10 @@ const MapView = ({ children }: PropsWithChildren) => {
 					mapRef.current = ref;
 				}}
 				onLoad={(ym) => setYmapsApi(ym)}
-				defaultState={{ center: [defaultUserPosition!.lat, defaultUserPosition!.lon], zoom: 14 }}
+				defaultState={{
+					center: defaultUserPosition ? [defaultUserPosition.lat, defaultUserPosition.lon] : DEFAULT_COORDS,
+					zoom: 14,
+				}}
 				modules={[
 					'multiRouter.MultiRoute',
 					'geoObject.addon.hint',
@@ -78,7 +88,10 @@ const MapView = ({ children }: PropsWithChildren) => {
 				{/* @ts-expect-error Сломанная типизация */}
 				<TrafficControl defaultState={{ trafficShown: true }} options={{ float: 'right' }} />
 				<ZoomControl options={{ position: { right: 8, bottom: window.innerHeight / 2.5 } }} />
-				<Placemark geometry={[userPosition!.lat, userPosition!.lon]} options={{ preset: 'islands#redPocketIcon' }} />
+				<Placemark
+					geometry={userPosition ? [userPosition.lat, userPosition.lon] : undefined}
+					options={{ preset: 'islands#redPocketIcon' }}
+				/>
 			</Map>
 			{children}
 		</>

@@ -40,6 +40,8 @@ const useTasksStore = create<ITasksStore>((set, get) => ({
 				const newTasks = [...get().tasks];
 				const parsed = result.data;
 
+				console.log(parsed);
+
 				parsed.forEach((item, index) => {
 					const newTask: ITask = {
 						uid: uuidv4(),
@@ -50,10 +52,7 @@ const useTasksStore = create<ITasksStore>((set, get) => ({
 							lon: Number(item['Географическая долгота']),
 						},
 						level:
-							item['Уровень клиента'].toLocaleLowerCase().trim() === 'standart' ||
-							item['Уровень клиента'].toLocaleLowerCase().trim() === 'standard'
-								? 'standard'
-								: 'vip',
+							item['Уровень клиента'] === 'standart' || item['Уровень клиента'] === 'standard' ? 'standard' : 'vip',
 						workStart: item['Время начала рабочего дня'],
 						workEnd: item['Время окончания рабочего дня'],
 						lunchStart: item['Время начала обеда'],
