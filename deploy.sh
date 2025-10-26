@@ -179,6 +179,7 @@ elif [ "$MODE" == "production" ]; then
     docker compose restart nginx
     
     echo -e "\n${GREEN}✓ Деплой завершен!${NC}"
-    echo -e "API доступно по адресу: ${YELLOW}https://$DOMAIN${NC}"
+    echo -e "Фронтенд: ${YELLOW}https://$DOMAIN${NC}"
+    echo -e "API доступно по адресу: ${YELLOW}https://$DOMAIN${NC}/api"
     echo -e "Для просмотра логов: ${YELLOW}docker compose logs -f${NC}"
 fi

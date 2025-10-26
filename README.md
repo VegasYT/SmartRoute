@@ -42,7 +42,7 @@ sudo apt install nginx certbot python3-certbot-nginx -y
 ```
 
 ## 2. Развертывание
-Создать в \frontend\.env используя .env.example
+Создать в \frontend\\.env используя .env.example
 - **VITE_YANDEX_MAPS_API_KEY** - апи ключ "JavaScript API и HTTP Геокодер". Получить можно тут https://developer.tech.yandex.ru/services
 - **VITE_REST_API_SSL** - http или https
 - **VITE_REST_API_DOMAIN** - домен (например demo-project.space)
