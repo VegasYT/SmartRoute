@@ -1,0 +1,13 @@
+.list-actions {
+	z-index: 1;
+	background-color: #ffffff;
+	border-block: 1px solid #e6e6e9;
+	position: sticky;
+	top: 0;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 8px;
+	gap: 8px;
+	padding-block: 8px;
+}

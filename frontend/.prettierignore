@@ -1,0 +1,37 @@
+# node
+node_modules
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+pnpm-workspace.yaml
+bun.lockb
+
+# сборка / вывод
+dist
+build
+out
+coverage
+
+# конфиги, которые не нужно форматировать
+*.log
+*.lock
+*.min.*
+*.d.ts
+*.snap
+*.svg
+
+# временные файлы
+tmp
+temp
+.cache
+.vscode
+.idea
+
+# базы данных и двоичные файлы
+*.db
+*.sqlite
+*.sqlite3
+*.db3
+*.sdb
+*.bak
+vite.config.ts
