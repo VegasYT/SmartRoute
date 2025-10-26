@@ -44,20 +44,20 @@ const useTasksStore = create<ITasksStore>((set, get) => ({
 					const newTask: ITask = {
 						uid: uuidv4(),
 						name: `Задача ${index + 1} из CSV-файла`,
-						address: item['address'],
+						address: item['Адрес объекта'],
 						coords: {
-							lat: Number(item['lat']),
-							lon: Number(item['lon']),
+							lat: Number(item['Географическая широта']),
+							lon: Number(item['Географическая долгота']),
 						},
 						level:
-							item['level'].toLocaleLowerCase().trim() === 'standart' ||
-							item['level'].toLocaleLowerCase().trim() === 'standard'
+							item['Уровень клиента'].toLocaleLowerCase().trim() === 'standart' ||
+							item['Уровень клиента'].toLocaleLowerCase().trim() === 'standard'
 								? 'standard'
 								: 'vip',
-						workStart: item['start_time'],
-						workEnd: item['end_time'],
-						lunchStart: item['lunch_start'],
-						lunchEnd: item['lunch_end'],
+						workStart: item['Время начала рабочего дня'],
+						workEnd: item['Время окончания рабочего дня'],
+						lunchStart: item['Время начала обеда'],
+						lunchEnd: item['Время окончания обеда'],
 					};
 
 					newTasks.push(newTask);
