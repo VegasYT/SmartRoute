@@ -157,7 +157,7 @@ const DrawerMenu = () => {
 						disabled={!canSave() || analyzeMultiRoutes.isPending}
 						onClick={() => analyzeMultiRoutes.mutate()}
 					>
-						Оптимизировать и рассчитать
+						Рассчитать и оптимизировать
 						{!!analyzeMultiRoutes.isPending && <Spinner />}
 					</Button>
 				</DrawerFooter>
