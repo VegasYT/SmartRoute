@@ -9,6 +9,7 @@ export interface ITasksStore {
 	addTasksFromCsv: (file: string) => void;
 
 	sortTasksByOptimized: (optimized: IOptimizeRoute[]) => void;
+	clearOptimizedState: () => void;
 
 	startTime: string | null;
 	setStartTime: (time: string) => void;
@@ -19,6 +20,6 @@ export interface ITasksStore {
 	totalDistance: number | null;
 	totalDuration: number | null;
 
-	setTotalProperties: (distance: number, duration: number) => void;
+	setTotalProperties: (distance: number | null, duration: number | null) => void;
 }
 

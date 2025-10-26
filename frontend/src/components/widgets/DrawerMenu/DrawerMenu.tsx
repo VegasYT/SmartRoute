@@ -5,7 +5,7 @@ import { DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTit
 import { Item, ItemActions, ItemContent, ItemDescription, ItemTitle } from '@/components/ui/item';
 import { Button } from '@/components/ui/button';
 
-import { ArrowDownToDot, ArrowUpFromDot, Car, TrashIcon } from 'lucide-react';
+import { ArrowDownToDot, ArrowUpFromDot, Car, CircleX, TrashIcon } from 'lucide-react';
 import { UserAddress } from './components/UserAddress';
 import { ListActions } from './components/ListActions';
 import { useTasksStore } from '@/stores/tasks';
@@ -18,8 +18,13 @@ import { Badge } from '@/components/ui/badge';
 import { Spinner } from '@/components/ui/spinner';
 
 const deleteTask = useTasksStore.getState().deleteTask;
+const setStartTime = useTasksStore.getState().setStartTime;
+
 const sortTasksByOptimized = useTasksStore.getState().sortTasksByOptimized;
 const setTotalProperties = useTasksStore.getState().setTotalProperties;
+
+const setUserPosition = useMapsStore.getState().setUserPosition;
+const setAddressPosition = useMapsStore.getState().setUserAddress;
 
 const DrawerMenu = () => {
 	const [chosenTaskIndex, setChosenTaskIndex] = useState<number | null>(null);
@@ -37,17 +42,19 @@ const DrawerMenu = () => {
 		mutationKey: ['analyze-multi-routes'],
 		mutationFn: () =>
 			analyzeMultiRoutesHelper({
-				clients: tasks.map((task, index) => ({
-					address: task.address,
-					latitude: task.coords.lat,
-					longitude: task.coords.lon,
-					level: task.level,
-					work_start: task.workStart,
-					work_end: task.workEnd,
-					lunch_start: task.lunchStart,
-					lunch_end: task.lunchEnd,
-					id: String(index + 1),
-				})),
+				clients: [
+					...tasks.map((task, index) => ({
+						address: task.address,
+						latitude: task.coords.lat,
+						longitude: task.coords.lon,
+						level: task.level,
+						work_start: task.workStart,
+						work_end: task.workEnd,
+						lunch_start: task.lunchStart,
+						lunch_end: task.lunchEnd,
+						id: String(index + 1),
+					})),
+				],
 				start_point: {
 					address: userAddress!,
 					latitude: userPosition!.lat,
@@ -73,7 +80,33 @@ const DrawerMenu = () => {
 		setIsTaskDialogOpen(true);
 	};
 
+	const handleDoneTask = () => {
+		const tasksCopy = [...tasks];
+		const currentTask = tasksCopy[0];
+		deleteTask(0);
+		setUserPosition({
+			lat: currentTask.coords.lat,
+			lon: currentTask.coords.lon,
+		});
+		setAddressPosition(currentTask.address);
+
+		const now = new Date();
+		const ruTime = now.toLocaleTimeString('ru-RU', {
+			timeZone: 'Europe/Moscow',
+			hour: '2-digit',
+			minute: '2-digit',
+		});
+		setStartTime(ruTime);
+		if (tasksCopy.length > 1) {
+			analyzeMultiRoutes.mutate();
+		} else {
+			setTotalProperties(null, null);
+		}
+	};
+
 	const canSave = () => !!(userAddress !== null && userPosition && startDay !== null && startTime !== null);
+
+	const hasTask = () => !!useTasksStore.getState().totalDistance && !!useTasksStore.getState().totalDuration;
 
 	return (
 		<DrawerContent className='items-center min-h-0'>
@@ -96,7 +129,12 @@ const DrawerMenu = () => {
 
 					<ul ref={animatedRef} className={styles['task-list']}>
 						{tasks.map((task, index) => (
-							<Item key={task.uid} onClick={() => handleTaskClick(index)} variant='outline'>
+							<Item
+								key={task.uid}
+								onClick={() => handleTaskClick(index)}
+								variant='outline'
+								className={`${index === 0 && hasTask() ? 'border-green-600' : ''}`}
+							>
 								<ItemContent>
 									<ItemTitle>
 										{index + 1}. {task.name}
@@ -104,16 +142,16 @@ const DrawerMenu = () => {
 									<ItemDescription className='flex flex-col gap-2'>{task.address}</ItemDescription>
 
 									<div className='flex flex-wrap gap-1'>
-										{!!task.estimatedArrival && task.estimatedArrival !== task.departureTime && (
-											<Badge variant='outline' className='border-destructive text-destructive'>
-												<ArrowUpFromDot />
+										{!!task.estimatedArrival && startTime !== task.departureTime && (
+											<Badge variant='outline' className='border-lime-600 text-lime-600'>
+												<ArrowDownToDot />
 												{task.estimatedArrival}
 											</Badge>
 										)}
 
 										{!!task.departureTime && (
-											<Badge variant='outline' className='border-lime-600 text-lime-600'>
-												<ArrowDownToDot />
+											<Badge variant='outline' className='border-destructive text-destructive'>
+												<ArrowUpFromDot />
 												{task.departureTime}
 											</Badge>
 										)}
@@ -153,13 +191,33 @@ const DrawerMenu = () => {
 
 				<DrawerFooter className='flex-row px-0'>
 					<Button
+						disabled={!hasTask()}
+						className='bg-destructive'
+						size='icon'
+						onClick={useTasksStore.getState().clearOptimizedState}
+					>
+						<CircleX />
+					</Button>
+
+					<Button
 						className='flex-1'
 						disabled={!canSave() || analyzeMultiRoutes.isPending}
 						onClick={() => analyzeMultiRoutes.mutate()}
 					>
-						Рассчитать и оптимизировать
+						Рассчитать
 						{!!analyzeMultiRoutes.isPending && <Spinner />}
 					</Button>
+
+					{hasTask() && (
+						<Button
+							variant='outline'
+							className='flex-1 border-lime-600 text-lime-600'
+							disabled={analyzeMultiRoutes.isPending}
+							onClick={handleDoneTask}
+						>
+							Завершить задачу
+						</Button>
+					)}
 				</DrawerFooter>
 			</div>
 		</DrawerContent>

@@ -73,6 +73,7 @@ const useTasksStore = create<ITasksStore>((set, get) => ({
 
 	sortTasksByOptimized: (optimized) => {
 		const newTasks = [...get().tasks];
+		optimized.shift();
 		const optimizedMap = new Map(optimized.map((item) => [item.address, item.order]));
 		newTasks.sort((a, b) => {
 			const orderA = optimizedMap.get(a.address) ?? 0;
@@ -85,6 +86,18 @@ const useTasksStore = create<ITasksStore>((set, get) => ({
 			task.travelTime = optimized[index].travel_time;
 		});
 		set({ tasks: newTasks });
+		localStorage.setItem('tasks', JSON.stringify(newTasks));
+	},
+
+	clearOptimizedState: () => {
+		const newTasks = [...get().tasks];
+		newTasks.forEach((task) => {
+			delete task.estimatedArrival;
+			delete task.departureTime;
+			delete task.travelTime;
+		});
+
+		set({ tasks: newTasks, totalDistance: null, totalDuration: null });
 		localStorage.setItem('tasks', JSON.stringify(newTasks));
 	},
 

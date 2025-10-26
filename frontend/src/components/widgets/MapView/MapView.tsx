@@ -68,10 +68,9 @@ const MapView = ({ children }: PropsWithChildren) => {
 				{/* @ts-expect-error Сломанная типизация */}
 				<TrafficControl defaultState={{ trafficShown: true }} options={{ float: 'right' }} />
 				<ZoomControl options={{ position: { right: 8, bottom: window.innerHeight / 2.5 } }} />
-				<Placemark
-					geometry={userPosition ? [userPosition.lat, userPosition.lon] : undefined}
-					options={{ preset: 'islands#redPocketIcon' }}
-				/>
+				{!!userPosition && (
+					<Placemark geometry={[userPosition.lat, userPosition.lon]} options={{ preset: 'islands#redPocketIcon' }} />
+				)}
 			</Map>
 			{children}
 		</>

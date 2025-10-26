@@ -39,7 +39,7 @@ const UserAddress = ({ isLoading }: { isLoading: boolean }) => {
 		mutationFn: (address: string) => getCoordsByAddressHelper(address),
 		onSuccess: (coords) => {
 			if (!coords) {
-				toast.warning('Не найти позицию на карте по адресу пользователя');
+				toast.warning('Не удалось найти позицию на карте по адресу пользователя');
 				return;
 			}
 			setUserPosition(coords);
