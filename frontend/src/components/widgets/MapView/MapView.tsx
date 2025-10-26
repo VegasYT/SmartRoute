@@ -2,10 +2,6 @@ import { useMemo, useRef, useState, type PropsWithChildren } from 'react';
 import { Map, Placemark, TrafficControl, ZoomControl } from '@pbe/react-yandex-maps';
 import styles from './MapView.module.css';
 
-import { Spinner } from '@/components/ui/spinner';
-import { ErrorInfo } from './components/ErrorInfo';
-
-import type { ICoordinates } from '@/lib/types';
 import { useYandexMultiRoute } from '@/lib/hooks/useYandexMultiRoute';
 import { useMapsStore } from '@/stores/maps';
 import { useGeolocation } from '@/lib/hooks/useGeolocation';
@@ -21,7 +17,6 @@ const MapView = ({ children }: PropsWithChildren) => {
 
 	const tasks = useTasksStore((state) => state.tasks);
 	const userPosition = useMapsStore((state) => state.userPosition);
-	const [defaultUserPosition, setDefaultUserPosition] = useState<ICoordinates | null>(null);
 
 	const tasksCoords = useMemo(() => tasks.map((task) => task.coords), [tasks]);
 	const multiRouteData = useMemo(() => {
@@ -29,9 +24,8 @@ const MapView = ({ children }: PropsWithChildren) => {
 		return [userPosition, ...tasksCoords];
 	}, [tasksCoords, userPosition]);
 
-	const { error: geolocationError } = useGeolocation({
+	useGeolocation({
 		onSuccess: (coords) => {
-			if (!defaultUserPosition) setDefaultUserPosition(coords);
 			if (userPosition === null) {
 				console.log(coords);
 				setUserPosition(coords);
@@ -51,20 +45,6 @@ const MapView = ({ children }: PropsWithChildren) => {
 		alternatives: 1,
 	});
 
-	if (!defaultUserPosition && !geolocationError)
-		return (
-			<div className={styles['info-container']}>
-				<Spinner className='size-16' />
-			</div>
-		);
-
-	if (geolocationError === 'unsupported')
-		return (
-			<div className={styles['info-container']}>
-				<ErrorInfo geolocationError={geolocationError} />
-			</div>
-		);
-
 	return (
 		<>
 			<Map
@@ -72,8 +52,8 @@ const MapView = ({ children }: PropsWithChildren) => {
 					mapRef.current = ref;
 				}}
 				onLoad={(ym) => setYmapsApi(ym)}
-				defaultState={{
-					center: defaultUserPosition ? [defaultUserPosition.lat, defaultUserPosition.lon] : DEFAULT_COORDS,
+				state={{
+					center: userPosition ? [userPosition.lat, userPosition.lon] : DEFAULT_COORDS,
 					zoom: 14,
 				}}
 				modules={[
