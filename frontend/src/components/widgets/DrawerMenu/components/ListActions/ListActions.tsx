@@ -14,6 +14,7 @@ import { WEEKDAYS, type Weekday } from '@/lib/types';
 import { useTasksStore } from '@/stores/tasks';
 
 interface IListActionsProps {
+	isLoading: boolean;
 	taskIndex: number | null;
 	setTaskIndex: React.Dispatch<React.SetStateAction<number | null>>;
 	isTaskDialogOpen: boolean;
@@ -24,7 +25,13 @@ const setChosenWeekday = useTasksStore.getState().setStartDay;
 const setStartTime = useTasksStore.getState().setStartTime;
 const addTasksFromCsv = useTasksStore.getState().addTasksFromCsv;
 
-const ListActions: FC<IListActionsProps> = ({ taskIndex, setTaskIndex, isTaskDialogOpen, setIsTaskDialogOpen }) => {
+const ListActions: FC<IListActionsProps> = ({
+	isLoading,
+	taskIndex,
+	setTaskIndex,
+	isTaskDialogOpen,
+	setIsTaskDialogOpen,
+}) => {
 	const startTime = useTasksStore((state) => state.startTime);
 	const chosenWeekday = useTasksStore((state) => state.startDay);
 
@@ -62,19 +69,20 @@ const ListActions: FC<IListActionsProps> = ({ taskIndex, setTaskIndex, isTaskDia
 				onChange={(e) => setStartTime(e.target.value)}
 			/>
 
-			<Button className='relative' variant='secondary'>
+			<Button disabled={isLoading} className='relative' variant='secondary'>
 				<FileSpreadsheet />
 				<input
 					type='file'
 					accept='.csv,text/csv'
 					className='z-10 absolute opacity-0 w-full h-full'
 					onChange={handleFileUpload}
+					disabled={isLoading}
 				/>
 			</Button>
 
 			<Dialog open={isTaskDialogOpen} onOpenChange={() => setIsTaskDialogOpen((prev) => !prev)} modal>
 				<DialogTrigger asChild>
-					<Button type='button' className='relative border-primary text-primary' variant='outline'>
+					<Button type='button' className='relative border-primary text-primary' variant='outline' disabled={isLoading}>
 						Добавить
 					</Button>
 				</DialogTrigger>

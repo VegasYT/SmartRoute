@@ -80,7 +80,13 @@ const useTasksStore = create<ITasksStore>((set, get) => ({
 			const orderB = optimizedMap.get(b.address) ?? 0;
 			return orderA - orderB;
 		});
+		newTasks.forEach((task, index) => {
+			task.estimatedArrival = optimized[index].estimated_arrival;
+			task.departureTime = optimized[index].departure_time;
+			task.travelTime = optimized[index].travel_time;
+		});
 		set({ tasks: newTasks });
+		localStorage.setItem('tasks', JSON.stringify(newTasks));
 	},
 
 	startTime: localStorage.getItem('startTime'),

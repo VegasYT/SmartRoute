@@ -15,6 +15,10 @@ export interface ITask {
 	workEnd: string;
 	lunchStart: string;
 	lunchEnd: string;
+
+	estimatedArrival?: string;
+	departureTime?: string;
+	travelTime?: number;
 }
 
 export interface IOptimizeRoute {

@@ -5,7 +5,7 @@ import { DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTit
 import { Item, ItemActions, ItemContent, ItemDescription, ItemTitle } from '@/components/ui/item';
 import { Button } from '@/components/ui/button';
 
-import { TrashIcon } from 'lucide-react';
+import { ArrowDownToDot, ArrowUpFromDot, Car, TrashIcon } from 'lucide-react';
 import { UserAddress } from './components/UserAddress';
 import { ListActions } from './components/ListActions';
 import { useTasksStore } from '@/stores/tasks';
@@ -14,6 +14,7 @@ import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { analyzeMultiRoutesHelper } from '@/lib/services/analyzeMultiRoutesHelper';
 import { useMapsStore } from '@/stores/maps';
+import { Badge } from '@/components/ui/badge';
 import { Spinner } from '@/components/ui/spinner';
 
 const deleteTask = useTasksStore.getState().deleteTask;
@@ -67,6 +68,7 @@ const DrawerMenu = () => {
 	});
 
 	const handleTaskClick = (index: number) => {
+		if (analyzeMultiRoutes.isPending) return;
 		setChosenTaskIndex(index);
 		setIsTaskDialogOpen(true);
 	};
@@ -81,10 +83,11 @@ const DrawerMenu = () => {
 					<DrawerDescription>Смотрите, добавляйте, выполняйте ваши задачи по встречам в течении дня</DrawerDescription>
 				</DrawerHeader>
 
-				<UserAddress />
+				<UserAddress isLoading={analyzeMultiRoutes.isPending} />
 
 				<div className={styles['body']}>
 					<ListActions
+						isLoading={analyzeMultiRoutes.isPending}
 						taskIndex={chosenTaskIndex}
 						setTaskIndex={setChosenTaskIndex}
 						isTaskDialogOpen={isTaskDialogOpen}
@@ -98,7 +101,29 @@ const DrawerMenu = () => {
 									<ItemTitle>
 										{index + 1}. {task.name}
 									</ItemTitle>
-									<ItemDescription>{task.address}</ItemDescription>
+									<ItemDescription className='flex flex-col gap-2'>{task.address}</ItemDescription>
+
+									<div className='flex flex-wrap gap-1'>
+										{!!task.estimatedArrival && task.estimatedArrival !== task.departureTime && (
+											<Badge variant='outline' className='border-destructive text-destructive'>
+												<ArrowUpFromDot />
+												{task.estimatedArrival}
+											</Badge>
+										)}
+
+										{!!task.departureTime && (
+											<Badge variant='outline' className='border-lime-600 text-lime-600'>
+												<ArrowDownToDot />
+												{task.departureTime}
+											</Badge>
+										)}
+
+										{!!task.travelTime && (
+											<Badge variant='outline' className='border-primary text-primary'>
+												<Car /> {`${Math.floor(task.travelTime)} мин`}
+											</Badge>
+										)}
+									</div>
 								</ItemContent>
 
 								<ItemActions>
@@ -111,6 +136,7 @@ const DrawerMenu = () => {
 											deleteTask(index);
 											toast.success('Задача успешно удалена');
 										}}
+										disabled={analyzeMultiRoutes.isPending}
 									>
 										<TrashIcon />
 									</Button>
@@ -126,16 +152,13 @@ const DrawerMenu = () => {
 				</div>
 
 				<DrawerFooter className='flex-row px-0'>
-					<Button className='flex-1 bg-destructive' disabled>
-						Сбросить
-					</Button>
 					<Button
 						className='flex-1'
 						disabled={!canSave() || analyzeMultiRoutes.isPending}
 						onClick={() => analyzeMultiRoutes.mutate()}
 					>
-						Сохранить
-						{analyzeMultiRoutes.isPending && <Spinner />}
+						Оптимизировать и рассчитать
+						{!!analyzeMultiRoutes.isPending && <Spinner />}
 					</Button>
 				</DrawerFooter>
 			</div>

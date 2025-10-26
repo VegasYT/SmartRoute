@@ -23,7 +23,7 @@ import { MapPin } from 'lucide-react';
 const setUserAddress = useMapsStore.getState().setUserAddress;
 const setUserPosition = useMapsStore.getState().setUserPosition;
 
-const UserAddress = () => {
+const UserAddress = ({ isLoading }: { isLoading: boolean }) => {
 	const [newAddress, setNewAddress] = useState('');
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -88,7 +88,7 @@ const UserAddress = () => {
 
 				<ItemActions>
 					<DialogTrigger asChild>
-						<Button variant='outline' size='sm' disabled={isLoadingAddress}>
+						<Button variant='outline' size='sm' disabled={isLoadingAddress || isLoading}>
 							Изменить
 							{isLoadingAddress ? <Spinner /> : <MapPin />}
 						</Button>

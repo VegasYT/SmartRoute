@@ -86,4 +86,5 @@ chmod +x deploy.sh
 
 - **Local**: API доступно по `http://localhost`
 - **Production**: API доступно по `https://ваш-домен.com/api`
+- **Frontend**: взаимодейсвтие через `ваш-домен.com`
 - Документация API: `/docs` или `/redoc`
