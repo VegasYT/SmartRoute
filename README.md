@@ -1,4 +1,9 @@
-# SmartRoute - Деплой
+# SmartRoute
+
+<p align="center">
+  <img src="https://i.imgur.com/9dLpEBo.png" width="45%" />
+  <img src="https://i.imgur.com/3kTXfS4.png" width="45%" />
+</p>
 
 ## Структура проекта
 ```
@@ -17,6 +22,7 @@
 └── deploy.sh        # Скрипт автоматического развертывания
 ```
 
+# Деплой
 ## 1. Подготовка сервера
 Обновите систему
 ```bash
