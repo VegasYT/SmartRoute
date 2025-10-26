@@ -42,15 +42,40 @@ if [ "$MODE" == "local" ]; then
 
     # Удаляем старые конфиги
     rm -rf nginx.conf docker-compose.yml
-    
+
     # Используем docker-compose-local.yml
     cp docker-compose-local.yml docker-compose.yml
     cp nginx-local.conf nginx.conf
-    
+
+    # Сборка frontend
+    echo -e "${GREEN}Сборка frontend...${NC}"
+
+    # Проверка установки pnpm
+    if ! command -v pnpm &> /dev/null; then
+        echo -e "${YELLOW}Установка pnpm...${NC}"
+        npm i -g pnpm
+    fi
+
+    cd frontend
+    echo -e "${YELLOW}Установка зависимостей frontend...${NC}"
+    pnpm install
+
+    echo -e "${YELLOW}Сборка frontend...${NC}"
+    pnpm run build
+
+    if [ ! -d "dist" ]; then
+        echo -e "${RED}Ошибка: папка dist не создана после сборки${NC}"
+        cd ..
+        exit 1
+    fi
+
+    echo -e "${GREEN}Frontend успешно собран${NC}"
+    cd ..
+
     echo -e "${GREEN}Запуск контейнеров...${NC}"
     docker compose down 2>/dev/null
     docker compose up -d
-    
+
     echo -e "\n${GREEN}✓ Готово!${NC}"
     echo -e "API доступно по адресу: ${YELLOW}http://localhost${NC}"
     echo -e "Для просмотра логов: ${YELLOW}docker compose logs -f${NC}"
@@ -89,15 +114,17 @@ elif [ "$MODE" == "production" ]; then
         read -p "Обновить сертификат? (y/n): " RENEW
         if [ "$RENEW" == "y" ]; then
             sudo certbot certonly --nginx -d "$DOMAIN" --email "$EMAIL" --agree-tos --no-eff-email --force-renewal
+            if [ $? -ne 0 ]; then
+                echo -e "${YELLOW}Не удалось обновить сертификат, продолжаем с существующим${NC}"
+            fi
         fi
     else
         sudo certbot certonly --nginx -d "$DOMAIN" --email "$EMAIL" --agree-tos --no-eff-email
-    fi
-    
-    if [ $? -ne 0 ]; then
-        echo -e "${RED}Ошибка при получении сертификата${NC}"
-        sudo systemctl stop nginx
-        exit 1
+        if [ $? -ne 0 ]; then
+            echo -e "${RED}Ошибка при получении сертификата${NC}"
+            sudo systemctl stop nginx
+            exit 1
+        fi
     fi
     
     sudo systemctl stop nginx
@@ -115,7 +142,32 @@ elif [ "$MODE" == "production" ]; then
 
     # Обновление docker-compose.yml
     cp docker-compose-prod.yml docker-compose.yml
-    
+
+    # Сборка frontend
+    echo -e "${GREEN}Сборка frontend...${NC}"
+
+    # Проверка установки pnpm
+    if ! command -v pnpm &> /dev/null; then
+        echo -e "${YELLOW}Установка pnpm...${NC}"
+        npm i -g pnpm
+    fi
+
+    cd frontend
+    echo -e "${YELLOW}Установка зависимостей frontend...${NC}"
+    pnpm install
+
+    echo -e "${YELLOW}Сборка frontend...${NC}"
+    pnpm run build
+
+    if [ ! -d "dist" ]; then
+        echo -e "${RED}Ошибка: папка dist не создана после сборки${NC}"
+        cd ..
+        exit 1
+    fi
+
+    echo -e "${GREEN}Frontend успешно собран${NC}"
+    cd ..
+
     # Запуск контейнеров
     echo -e "${GREEN}Запуск контейнеров...${NC}"
     docker compose up -d
